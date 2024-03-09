@@ -1,6 +1,7 @@
 # Lunaris packages
 PRODUCT_PACKAGES += \
-    GameSpace
+    GameSpace \
+    OmniStyle
 
 ifeq ($(LUNARIS_BUILD_TYPE),OFFICIAL)
 PRODUCT_PACKAGES += \
