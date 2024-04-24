@@ -162,7 +162,6 @@ PRODUCT_COPY_FILES += \
 
 # Config
 PRODUCT_PACKAGES += \
-    SimpleDeviceConfig \
     SimpleSettingsConfig
 
 # Extra tools in Lineage
@@ -218,9 +217,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     rsync
 
+ifeq ($(WITH_GMS),false)
 # Storage manager
 PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
     ro.storage_manager.enabled=true
+endif
 
 # These packages are excluded from user builds
 PRODUCT_PACKAGES_DEBUG += \
@@ -261,9 +262,31 @@ endif
 $(call inherit-product, vendor/lineage/audio/audio.mk)
 
 # SetupWizard
+ifeq ($(WITH_GMS),false)
 PRODUCT_PRODUCT_PROPERTIES += \
     setupwizard.theme=glif_v4 \
     setupwizard.feature.day_night_mode_enabled=true
+endif
+
+# GMS
+WITH_GMS ?= true
+ifeq ($(WITH_GMS),true)
+  ifeq ($(TARGET_USES_CORE_GAPPS),true)
+    $(call inherit-product, vendor/gms/gms_pico.mk)
+    $(call inherit-product, vendor/pixel-style/config/common.mk)
+    LUNARIS_PACKAGE_TYPE := Core
+  else ifeq ($(TARGET_USES_OMNI_GAPPS),true)
+    $(call inherit-product, vendor/gms/gms_mini.mk)
+    $(call inherit-product, vendor/pixel-style/config/common.mk)
+    LUNARIS_PACKAGE_TYPE := Omni
+  else
+    $(call inherit-product, vendor/gms/gms_full.mk)
+    $(call inherit-product, vendor/pixel-style/config/common.mk)
+    LUNARIS_PACKAGE_TYPE := Gapps
+  endif
+else
+  LUNARIS_PACKAGE_TYPE := Vanilla
+endif
 
 PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/lineage/overlay/no-rro
 PRODUCT_PACKAGE_OVERLAYS += \
