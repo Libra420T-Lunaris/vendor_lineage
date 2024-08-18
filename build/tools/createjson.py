@@ -1,22 +1,16 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-# SPDX-License-Identifier: Apache-2.0
-
 import argparse
 import os
 import hashlib
 import json
 
-def generate_json(target_device, product_out, file_name, build_variant):
+def generate_json(target_device, product_out, file_name, build_variant, with_gms):
     output = os.path.join(product_out, f"{target_device}.json")
 
     if os.path.exists(output):
         os.remove(output)
 
-    channel = "15"
-
-    existing_ota_json = os.path.join(f"./vendor/OTA/builds", f"{target_device}.json")
+    android_version = file_name.split('-')[1].split('.')[0] + ("_vanilla" if with_gms == "false" else "")
+    existing_ota_json = os.path.join(f"./vendor/OTA{'-VANILLA' if with_gms == 'false' else ''}/builds", f"{target_device}.json")
 
     maintainer = ""
     currently_maintained = False
@@ -26,8 +20,8 @@ def generate_json(target_device, product_out, file_name, build_variant):
     firmware = ""
     paypal = ""
     github = ""
-    sourceforge = ""
     initial_installation_images = []
+    extra_images = []
 
     if os.path.exists(existing_ota_json):
         with open(existing_ota_json, 'r') as f:
@@ -41,14 +35,12 @@ def generate_json(target_device, product_out, file_name, build_variant):
         firmware = response_data.get("firmware", "")
         paypal = response_data.get("paypal", "")
         github = response_data.get("github", "")
-        sourceforge = response_data.get("sourceforge", "")
         initial_installation_images = response_data.get("initial_installation_images", [])
+        extra_images = response_data.get("extra_images", [])
 
     filename = file_name
-    download = f"https://sourceforge.net/projects/ghosuto/files/{target_device}/{file_name}/download"
+    download = f"https://sourceforge.net/projects/ghosuto/files/{target_device}/{android_version}/{file_name}/download"
     version = file_name.split('-')[4]
-    v_max, v_min = version.split('.')[0], version.split('.')[1]
-    version = f"{v_max}.{v_min}"
     buildprop = os.path.join(product_out, "system", "build.prop")
     timestamp = get_timestamp_from_buildprop(buildprop)
     md5 = get_checksum(os.path.join(product_out, file_name), 'md5')
@@ -74,8 +66,8 @@ def generate_json(target_device, product_out, file_name, build_variant):
                 "firmware": f"{firmware}" if firmware else "",
                 "paypal": f"{paypal}" if paypal else "",
                 "github": github,
-                "sourceforge": sourceforge,
-                "initial_installation_images": initial_installation_images
+                "initial_installation_images": initial_installation_images,
+                "extra_images": extra_images
             }
         ]
     }
@@ -116,9 +108,10 @@ def main():
     parser.add_argument("product_out", help="Product output directory")
     parser.add_argument("file_name", help="File name for OTA")
     parser.add_argument("build_variant", help="Build variant")
+    parser.add_argument("with_gms", help="Whether with GMS (true/false)")
 
     args = parser.parse_args()
-    generate_json(args.target_device, args.product_out, args.file_name, args.build_variant)
+    generate_json(args.target_device, args.product_out, args.file_name, args.build_variant, args.with_gms)
 
 if __name__ == "__main__":
     main()

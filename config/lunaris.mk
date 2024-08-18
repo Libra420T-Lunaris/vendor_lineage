@@ -7,3 +7,8 @@ endif
 ifeq ($(LUNARIS_BUILD_TYPE),OFFICIAL)
     $(call inherit-product, vendor/lunaris-priv/keys/keys.mk)
 endif
+
+ifeq ($(WITH_GMS),false)
+PRODUCT_PACKAGES += \
+    UpdaterVanillaOverlay
+endif
