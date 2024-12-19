@@ -1,3 +1,7 @@
+# Lunaris packages
+PRODUCT_PACKAGES += \
+    GameSpace
+
 ifeq ($(LUNARIS_BUILD_TYPE),OFFICIAL)
 PRODUCT_PACKAGES += \
     Updater
