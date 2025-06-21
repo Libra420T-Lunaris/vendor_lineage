@@ -345,3 +345,9 @@ PRODUCT_EXTRA_RECOVERY_KEYS += \
 include vendor/lineage/config/version.mk
 
 -include $(WORKSPACE)/build_env/image-auto-bits.mk
+
+# APEX
+DISABLE_DEXPREOPT_CHECK := true
+
+PRODUCT_PACKAGES += \
+    com.google.android.permission
