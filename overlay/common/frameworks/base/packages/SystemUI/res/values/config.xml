@@ -79,4 +79,6 @@
     <integer name="biometric_dialog_text_gravity">1</integer> <!-- CENTER_HORIZONTAL -->
     
     <bool name="config_vibrateOnIconAnimation" translatable="false">false</bool>
+    
+    <bool name="config_turbulenceNoise" translatable="false">false</bool>
 </resources>
