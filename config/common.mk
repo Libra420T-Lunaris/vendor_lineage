@@ -261,6 +261,10 @@ PRODUCT_ARTIFACT_PATH_REQUIREMENT_ALLOWED_LIST += \
 endif
 endif
 
+# SurfaceFlinger
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+    ro.surface_flinger.supports_background_blur=1
+
 # SystemUI
 PRODUCT_DEXPREOPT_SPEED_APPS += \
     Launcher3QuickStep \
