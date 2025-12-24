@@ -64,6 +64,11 @@ ifeq ($(TARGET_BUILD_DEVICE_AS_WEBCAM), true)
         ro.usb.uvc.enabled=true
 endif
 
+# Disable touch video heatmap to reduce latency, motion jitter, and CPU usage
+# on supported devices with Deep Press input classifier HALs and models
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.input.video_enabled=false
+
 # Dexopt
 ART_BUILD_HOST_DEBUG := false
 ART_BUILD_TARGET_DEBUG := false
