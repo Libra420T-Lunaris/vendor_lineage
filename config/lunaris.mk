@@ -1,5 +1,6 @@
 # Lunaris packages
 PRODUCT_PACKAGES += \
+    BatteryStatsViewer \
     GameSpace \
     OmniJaws \
     OmniStyle
