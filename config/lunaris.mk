@@ -208,6 +208,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
     persist.sys.target_enables_ims_override=$(TARGET_ENABLES_IMS_OVERRIDES) \
     persist.sys.target_supports_touch_boost=$(TARGET_TOUCH_BOOST_SUPPORTED)
 
+# sound
+PRODUCT_PRODUCT_PROPERTIES += \
+    audio.safemedia.bypass=1
+
 # uclamp properties
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.surface_flinger.uclamp.min=165
