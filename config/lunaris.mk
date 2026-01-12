@@ -166,3 +166,39 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
 PRODUCT_PRODUCT_PROPERTIES += \
     remote_provisioning.enable_rkpd=true \
     remote_provisioning.hostname=remoteprovisioning.googleapis.com
+
+# Feature
+BYPASS_CHARGE_SUPPORTED ?= false
+PERF_GOV_SUPPORTED ?= false
+PERF_DEFAULT_GOV ?= schedutil
+HBM_SUPPORTED ?= false
+HBM_NODE ?= /sys/class/backlight/panel0-backlight/hbm_mode
+TORCH_STR_SUPPORTED ?= false
+TARGET_ENABLES_IMS_OVERRIDES ?= false
+TARGET_TOUCH_BOOST_SUPPORTED ?= false
+BYPASS_CHARGE_TOGGLE_PATH ?= /sys/class/power_supply/battery/input_suspend
+BYPASS_CHARGE_LEVEL_PATH ?= /sys/devices/platform/google,charger/charge_stop_level
+
+# optional
+TARGET_USES_USLMK ?= false
+TARGET_USLMK_DEBUG ?= false
+TARGET_DISABLES_LIBPERF ?= false
+
+# flags
+PERF_ANIM_OVERRIDE ?= false
+TARGET_NEEDS_DOZE_FIX ?= false
+
+# FEATURES
+PRODUCT_PRODUCT_PROPERTIES += \
+    persist.sys.battery_bypass_supported=$(BYPASS_CHARGE_SUPPORTED) \
+    persist.sys.gs_charge_bypass_lvl_path=$(BYPASS_CHARGE_LEVEL_PATH) \
+    persist.sys.gs_charge_bypass_toggle_path=$(BYPASS_CHARGE_TOGGLE_PATH) \
+    persist.sys.dev_supports_perf_gov=$(PERF_GOV_SUPPORTED) \
+    persist.sys.default_scaling_gov=$(PERF_DEFAULT_GOV) \
+    persist.sys.hbmservice_support=$(HBM_SUPPORTED) \
+    persist.sys.hbmservice_file=$(HBM_NODE) \
+    persist.sys.torch_str_support=$(TORCH_STR_SUPPORTED) \
+    persist.sys.axion_gpu_freqs_path=$(GPU_FREQS_PATH) \
+    persist.sys.axion_gpu_minfreq_file=$(GPU_MIN_FREQ_PATH) \
+    persist.sys.target_enables_ims_override=$(TARGET_ENABLES_IMS_OVERRIDES) \
+    persist.sys.target_supports_touch_boost=$(TARGET_TOUCH_BOOST_SUPPORTED)
