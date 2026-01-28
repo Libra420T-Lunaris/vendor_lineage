@@ -1,3 +1,6 @@
+# Avium UI
+$(call inherit-product, vendor/avium/config/avium.mk)
+
 PRODUCT_PACKAGES += \
     AxionWidgets \
     BatteryStatsViewer \
